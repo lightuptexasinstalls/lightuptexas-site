@@ -41,3 +41,10 @@ legend { font-size: 15px; font-weight: 500; padding: 0; margin-bottom: 10px; }
 .adm th, .adm td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #E2DBCC; vertical-align: top; }
 .adm th { position: sticky; top: 0; background: #EDE7DB; font-weight: 500; white-space: nowrap; }
 .adm select, .adm input { font-size: 13px; padding: 4px 6px; border: 1px solid #D9D2C3; border-radius: 6px; background: #fff; }
+
+/* Hero on phones: darker, even shade so the headline doesn't sit on the brightest lights */
+@media (max-width: 700px) {
+  .hero-shade { background: linear-gradient(180deg, rgba(14,19,21,.55) 0%, rgba(14,19,21,.78) 35%, rgba(14,19,21,.86) 100%) !important; }
+  .hero-img { object-position: 78% center !important; }
+  .hero-shade + div h1, .hero-shade + div p { text-shadow: 0 1px 14px rgba(0,0,0,.55); }
+}
