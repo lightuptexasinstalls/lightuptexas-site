@@ -7,7 +7,7 @@ export const SITE = {
   phoneDisplay: '(325) 332-7997',
   phoneTel: '3253327997',
   serviceAreaLabel: 'Abilene, Texas',
-  specialistName: 'Aaron', // shown on the results screen: "[name] will call you…"
+  specialistName: '[SPECIALIST NAME]', // shown on the results screen: "[name] will call you…"
   url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
 };
 
@@ -19,12 +19,9 @@ export const PRICING = {
   ratePerFoot: 35, // $ per linear foot of roofline
   minimum: 1500, // smallest job you'll quote
   storyMultiplier: [1, 1.15, 1.3], // 1 story, 2 stories, 3+ stories
-  // How wide the ballpark range is. "measured" = home found on the satellite view.
-  spread: {
-    measured: { low: 0.9, high: 1.15 },
-    estimated: { low: 0.8, high: 1.3 },
-  },
-  minRangeWidth: 400, // high is always at least this much above low
+  // The ballpark range: the high number is this much above the low number (0.25 = 25%),
+  // centered on the calculated price.
+  rangePct: 0.25,
   roundTo: 50,
 };
 
