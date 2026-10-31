@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   title: 'Permanent Roofline Lighting in Abilene | Light Up Texas Installs',
   description:
     'Permanent, app-controlled roofline lighting for West Texas homes. Hidden by day, any color by night. Get a ballpark price in under 2 minutes.',
-  openGraph: { images: ['/images/hero.jpg'] },
 };
 
 export const viewport: Viewport = { themeColor: '#141A1D' };
