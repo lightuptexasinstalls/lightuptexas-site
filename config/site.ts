@@ -7,7 +7,7 @@ export const SITE = {
   phoneDisplay: '(325) 332-7997',
   phoneTel: '3253327997',
   serviceAreaLabel: 'Abilene, Texas',
-  specialistName: '[SPECIALIST NAME]', // shown on the results screen: "[name] will call you…"
+  specialistName: 'Aaron', // shown on the results screen: "[name] will call you…"
   url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
 };
 
