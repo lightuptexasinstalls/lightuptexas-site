@@ -18,12 +18,12 @@ export default function Home() {
               <h1 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2.6rem, 5vw, 4.25rem)', lineHeight: 1.04}}>Your home, beautifully lit. <br /><span style={{fontStyle: 'italic', color: 'rgb(230, 210, 166)'}}>Every night of the year.</span></h1>
               <p style={{margin: '0', maxWidth: '480px', fontSize: '18px', fontWeight: '300', lineHeight: 1.6, color: '#DDE1E2'}}>Lighting that hides under your eaves by day and glows any color of your choice by night, all controlled from your phone.</p>
               <form action="/estimate" method="get" style={{background: '#F6F3EC', color: '#1C2326', borderRadius: '18px', padding: '18px', display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '460px', boxShadow: '0 18px 50px rgba(0, 0, 0, 0.35)'}}>
-                <label htmlFor="hero-zip" style={{fontSize: '15px', fontWeight: '500'}}>Get an estimate in &lt;5 minutes</label>
+                <label htmlFor="hero-zip" style={{fontSize: '15px', fontWeight: '500'}}>Receive an estimate in &lt;2 minutes</label>
                 <div style={{display: 'flex', flexWrap: 'wrap', gap: '10px'}}>
                   <input id="hero-zip" type="text" inputMode="numeric" autoComplete="postal-code" maxLength={5} placeholder="Enter your ZIP code" name="zip" required pattern="[0-9]{5}" title="5-digit ZIP code" style={{flex: '1 1 180px', minWidth: '0', minHeight: '52px', padding: '0 16px', border: '1.5px solid #D9D2C3', borderRadius: '12px', fontFamily: "'Jost', sans-serif", fontSize: '16px', color: '#1C2326', background: '#FFFFFF', boxSizing: 'border-box'}} />
-                  <button type="submit" style={{flex: '0 0 auto', minHeight: '52px', padding: '0 26px', borderRadius: '12px', border: '0', background: '#1C2326', color: '#F6F3EC', fontFamily: "'Jost', sans-serif", fontSize: '16px', fontWeight: '500', letterSpacing: '0.02em', cursor: 'pointer'}}>See my price</button>
+                  <button type="submit" style={{flex: '0 0 auto', minHeight: '52px', padding: '0 26px', borderRadius: '12px', border: '0', background: '#1C2326', color: '#F6F3EC', fontFamily: "'Jost', sans-serif", fontSize: '16px', fontWeight: '500', letterSpacing: '0.02em', cursor: 'pointer'}}>See My Price</button>
                 </div>
-                <div style={{fontSize: '13px', color: '#4A5559'}}>Free · No obligation</div>
+                <div style={{fontSize: '13px', color: '#4A5559'}}>Free · No Obligation&nbsp;</div>
               </form>
             </div>
           </div>
@@ -37,7 +37,7 @@ export default function Home() {
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px'}}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C2326" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5" /><path d="M9 13.5 L8 21 L12 19 L16 21 L15 13.5" /></svg>
-              <span>[X]-year warranty</span>
+              <span>100,000+hr LED Rating</span>
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px'}}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C2326" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 21 C12 21 5 14.5 5 9.5 A7 7 0 0 1 19 9.5 C19 14.5 12 21 12 21 Z" /><circle cx="12" cy="9.5" r="2.5" /></svg>
@@ -45,7 +45,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+      
       <ColorScenes />
+      
         <section style={{maxWidth: '1120px', margin: '0 auto', padding: '88px 24px 80px', display: 'flex', flexDirection: 'column', gap: '36px'}}>
           <div style={{display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '640px'}}>
             
@@ -74,7 +76,7 @@ export default function Home() {
             <div style={{flex: '1 1 380px', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '28px'}}>
               <div style={{display: 'flex', flexDirection: 'column', gap: '14px'}}>
                 
-                <h2 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2rem, 3.6vw, 2.9rem)', lineHeight: 1.1, color: '#f3eee4'}}>Your lights.&nbsp;<span style={{color: 'rgb(230, 210, 166)'}}>Your phone.<br /></span><span style={{fontStyle: 'italic', color: 'rgb(230, 210, 166)'}}>Your control.</span></h2>
+                <h2 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2rem, 3.6vw, 2.9rem)', lineHeight: 1.1, color: '#f3eee4'}}>Your lights.&nbsp;<span style={{color: 'rgb(230, 210, 166)'}}>Your phone.&nbsp;</span><span style={{fontStyle: 'italic', color: 'rgb(230, 210, 166)'}}>Your control.</span></h2>
                 <p style={{margin: '0', fontSize: '17px', fontWeight: '300', lineHeight: 1.6, color: '#C9CFD0'}}>Pick a scene, dial in the brightness, or set a schedule once and let it run for you automatically.</p>
               </div>
               <dl style={{margin: '0', display: 'flex', flexDirection: 'column', borderTop: '1px solid #2A3438'}}>
@@ -261,55 +263,39 @@ export default function Home() {
               
               <h2 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2rem, 3.6vw, 2.9rem)', lineHeight: 1.1}}>How It Works</h2>
             </div>
-            <ol style={{margin: '0', padding: '0', listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '32px'}}>
-              <li style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                <div aria-hidden="true" style={{height: '8px', marginBottom: '8px', backgroundImage: 'radial-gradient(circle at 4px 4px, #FF8A1F 0 2px, transparent 3px), radial-gradient(circle at 13px 4px, #A855F7 0 2px, transparent 3px)', backgroundSize: '18px 8px', backgroundRepeat: 'repeat-x', filter: 'drop-shadow(0 0 2px #FF8A1F) drop-shadow(0 0 4px #A855F7)'}}></div>
-                <div style={{fontFamily: "'Cormorant Garamond', serif", fontSize: '34px', fontWeight: '300', lineHeight: 1}}>01</div>
-                <h3 style={{margin: '0', fontSize: '19px', fontWeight: '500'}}>See your price</h3>
-                <p style={{margin: '0', fontSize: '15px', fontWeight: '300', lineHeight: 1.6, color: '#3A4549'}}>Enter your ZIP and address, tap the rooflines you'd like lit, and get a ballpark price in under 5 minutes.</p>
+            <ol style={{margin: '0', padding: '0', listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '40px 28px'}}>
+              <li style={{display: 'flex', flexDirection: 'column', gap: '14px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+                  <div style={{width: '52px', height: '52px', flexShrink: '0', borderRadius: '50%', border: '1px solid #C9A66B', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: '400', color: '#1C2326', boxShadow: '0 0 0 6px #F6F3EC, 0 0 22px rgba(201, 166, 107, 0.35)'}}>01</div>
+                  <div aria-hidden="true" style={{flex: '1', height: '1px', background: 'linear-gradient(90deg, #C9A66B 0%, rgba(201, 166, 107, 0.15) 100%)'}}></div>
+                </div>
+                <h3 style={{margin: '4px 0 0', fontSize: '19px', fontWeight: '500'}}>See your price</h3>
+                <p style={{margin: '0', fontSize: '15px', fontWeight: '300', lineHeight: 1.6, color: '#3A4549'}}>Enter your ZIP and address, choose what you'd like lit, and get a ballpark price in under 2 minutes.</p>
               </li>
-              <li style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                <div aria-hidden="true" style={{height: '8px', marginBottom: '8px', backgroundImage: 'radial-gradient(circle at 4px 4px, #2BD46B 0 2px, transparent 3px), radial-gradient(circle at 13px 4px, #4F8BFF 0 2px, transparent 3px)', backgroundSize: '18px 8px', backgroundRepeat: 'repeat-x', filter: 'drop-shadow(0 0 2px #2BD46B) drop-shadow(0 0 4px #4F8BFF)'}}></div>
-                <div style={{fontFamily: "'Cormorant Garamond', serif", fontSize: '34px', fontWeight: '300', lineHeight: 1}}>02</div>
-                <h3 style={{margin: '0', fontSize: '19px', fontWeight: '500'}}>We give you a call</h3>
+              <li style={{display: 'flex', flexDirection: 'column', gap: '14px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+                  <div style={{width: '52px', height: '52px', flexShrink: '0', borderRadius: '50%', border: '1px solid #C9A66B', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: '400', color: '#1C2326', boxShadow: '0 0 0 6px #F6F3EC, 0 0 22px rgba(201, 166, 107, 0.35)'}}>02</div>
+                  <div aria-hidden="true" style={{flex: '1', height: '1px', background: 'linear-gradient(90deg, #C9A66B 0%, rgba(201, 166, 107, 0.15) 100%)'}}></div>
+                </div>
+                <h3 style={{margin: '4px 0 0', fontSize: '19px', fontWeight: '500'}}>We give you a call</h3>
                 <p style={{margin: '0', fontSize: '15px', fontWeight: '300', lineHeight: 1.6, color: '#3A4549'}}>A lighting specialist calls to answer your questions and set up a visit.</p>
               </li>
-              <li style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                <div aria-hidden="true" style={{height: '8px', marginBottom: '8px', backgroundImage: 'radial-gradient(circle at 4px 4px, #F2B45C 0 2px, transparent 3px), radial-gradient(circle at 13px 4px, #F2B45C 0 2px, transparent 3px)', backgroundSize: '18px 8px', backgroundRepeat: 'repeat-x', filter: 'drop-shadow(0 0 2px #F2B45C) drop-shadow(0 0 4px #F2B45C)'}}></div>
-                <div style={{fontFamily: "'Cormorant Garamond', serif", fontSize: '34px', fontWeight: '300', lineHeight: 1}}>03</div>
-                <h3 style={{margin: '0', fontSize: '19px', fontWeight: '500'}}>Free in-person measurement</h3>
+              <li style={{display: 'flex', flexDirection: 'column', gap: '14px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+                  <div style={{width: '52px', height: '52px', flexShrink: '0', borderRadius: '50%', border: '1px solid #C9A66B', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: '400', color: '#1C2326', boxShadow: '0 0 0 6px #F6F3EC, 0 0 22px rgba(201, 166, 107, 0.35)'}}>03</div>
+                  <div aria-hidden="true" style={{flex: '1', height: '1px', background: 'linear-gradient(90deg, #C9A66B 0%, rgba(201, 166, 107, 0.15) 100%)'}}></div>
+                </div>
+                <h3 style={{margin: '4px 0 0', fontSize: '19px', fontWeight: '500'}}>Free in-person measurement</h3>
                 <p style={{margin: '0', fontSize: '15px', fontWeight: '300', lineHeight: 1.6, color: '#3A4549'}}>We measure your roofline in person and give you your official price before any work begins.</p>
               </li>
-              <li style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                <div aria-hidden="true" style={{height: '8px', marginBottom: '8px', backgroundImage: 'radial-gradient(circle at 4px 4px, #FF3B3B 0 2px, transparent 3px), radial-gradient(circle at 13px 4px, #2BD46B 0 2px, transparent 3px)', backgroundSize: '18px 8px', backgroundRepeat: 'repeat-x', filter: 'drop-shadow(0 0 2px #FF3B3B) drop-shadow(0 0 4px #2BD46B)'}}></div>
-                <div style={{fontFamily: "'Cormorant Garamond', serif", fontSize: '34px', fontWeight: '300', lineHeight: 1}}>04</div>
-                <h3 style={{margin: '0', fontSize: '19px', fontWeight: '500'}}>Lit in a day</h3>
+              <li style={{display: 'flex', flexDirection: 'column', gap: '14px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+                  <div style={{width: '52px', height: '52px', flexShrink: '0', borderRadius: '50%', border: '1px solid #C9A66B', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: '400', color: '#1C2326', boxShadow: '0 0 0 6px #F6F3EC, 0 0 22px rgba(201, 166, 107, 0.35)'}}>04</div>
+                </div>
+                <h3 style={{margin: '4px 0 0', fontSize: '19px', fontWeight: '500'}}>Lit in a day</h3>
                 <p style={{margin: '0', fontSize: '15px', fontWeight: '300', lineHeight: 1.6, color: '#3A4549'}}>Your track is custom-cut for your home, and then our crew installs it and walks you through the app.</p>
               </li>
             </ol>
-          </div>
-        </section>
-      
-        <section style={{background: '#EDE7DB'}}>
-          <div style={{maxWidth: '1120px', margin: '0 auto', padding: '80px 24px', display: 'flex', flexDirection: 'column', gap: '32px'}}>
-            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-              <div style={{fontSize: '12px', fontWeight: '500', letterSpacing: '0.3em', color: '#5E6A6E'}}>FROM OUR CUSTOMERS</div>
-              <h2 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2rem, 3.6vw, 2.9rem)', lineHeight: 1.1}}>Homes we're lighting up</h2>
-            </div>
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px'}}>
-              <figure style={{margin: '0', background: '#FFFFFF', border: '1px solid #E2DBCC', borderRadius: '14px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '18px'}}>
-                <blockquote style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: '400', lineHeight: 1.35}}>[Review from a real customer]</blockquote>
-                <figcaption style={{fontSize: '14px', color: '#4A5559'}}>[Customer name] · [City]</figcaption>
-              </figure>
-              <figure style={{margin: '0', background: '#FFFFFF', border: '1px solid #E2DBCC', borderRadius: '14px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '18px'}}>
-                <blockquote style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: '400', lineHeight: 1.35}}>[Review from a real customer]</blockquote>
-                <figcaption style={{fontSize: '14px', color: '#4A5559'}}>[Customer name] · [City]</figcaption>
-              </figure>
-              <figure style={{margin: '0', background: '#FFFFFF', border: '1px solid #E2DBCC', borderRadius: '14px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '18px'}}>
-                <blockquote style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: '400', lineHeight: 1.35}}>[Review from a real customer]</blockquote>
-                <figcaption style={{fontSize: '14px', color: '#4A5559'}}>[Customer name] · [City]</figcaption>
-              </figure>
-            </div>
           </div>
         </section>
       
@@ -363,9 +349,19 @@ export default function Home() {
             <h2 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2rem, 4vw, 3.2rem)', lineHeight: 1.1, maxWidth: '720px'}}>See what it would cost to<br />light <span style={{fontStyle: 'italic', color: '#E6D2A6'}}>your</span> home.</h2>
             <p style={{margin: '0', fontSize: '16px', fontWeight: '300', color: '#C9CFD0'}}>Install dates fill up fast before the holidays.</p>
             <a href="/estimate" style={{textDecoration: 'none', display: 'inline-flex', alignItems: 'center', minHeight: '52px', padding: '0 30px', borderRadius: '999px', border: '0', background: '#E6D2A6', color: '#141A1D', fontFamily: "'Jost', sans-serif", fontSize: '16px', fontWeight: '500', letterSpacing: '0.03em', cursor: 'pointer'}}>Get my free estimate</a>
-            <div style={{fontSize: '13px', color: '#B5BEC0'}}>In &lt;5 minutes · No obligation</div>
+            <div style={{fontSize: '13px', color: '#B5BEC0'}}>In &lt;2 minutes · No obligation</div>
           </div>
         </section>
+      
+        <footer style={{background: '#0E1315', color: '#B5BEC0'}}>
+          <div style={{maxWidth: '1120px', margin: '0 auto', padding: '28px 24px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '12px', fontSize: '13px'}}>
+            <div>© {new Date().getFullYear()} {SITE.name}</div>
+            <div style={{display: 'flex', flexWrap: 'wrap', gap: '18px'}}>
+              <span>{SITE.serviceAreaLabel} · <a href={`tel:${SITE.phoneTel}`} style={{color: '#B5BEC0'}}>{SITE.phoneDisplay}</a></span>
+              <a href="/privacy" style={{color: '#B5BEC0'}}>Privacy policy</a>
+            </div>
+          </div>
+        </footer>
       </main>
     </div>
   );

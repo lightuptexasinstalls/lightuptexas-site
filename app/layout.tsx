@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: 'Permanent Roofline Lighting in Abilene | Light Up Texas Installs',
   description:
-    'Permanent, app-controlled roofline lighting for West Texas homes. Hidden by day, any color by night. Get a ballpark price in under 5 minutes.',
+    'Permanent, app-controlled roofline lighting for West Texas homes. Hidden by day, any color by night. Get a ballpark price in under 2 minutes.',
   openGraph: { images: ['/images/hero.jpg'] },
 };
 
