@@ -66,7 +66,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
 
   const totalFeet = live ? roof?.totalFeet ?? 0 : size !== null ? perimeterFromHomeSize(size, stories) : 0;
   const feet = cover !== null && totalFeet ? coverageFeet(totalFeet, cover) : 0;
-  const range = stories !== null ? priceRange(feet, stories, live) : null;
+  const range = stories !== null ? priceRange(feet, stories) : null;
 
   const ok: Record<number, boolean> = {
     1: zipDone,
@@ -169,7 +169,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
       {step <= 4 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#4A5559' }}>
-            <span>Step {step} of 4</span><span>Under 5 minutes</span>
+            <span>Step {step} of 4</span><span>Under 2 minutes</span>
           </div>
           <div style={{ height: 4, borderRadius: 4, background: '#E2DBCC', overflow: 'hidden' }} role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={4}>
             <div style={{ height: 4, width: `${step * 25}%`, background: '#1C2326', borderRadius: 4, transition: 'width .3s' }} />
@@ -230,7 +230,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
             </div>
             <label htmlFor="consent" style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 13, fontWeight: 300, lineHeight: 1.5, color: '#3A4549', cursor: 'pointer' }}>
               <input id="consent" type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ width: 20, height: 20, margin: '1px 0 0', flexShrink: 0, accentColor: '#1C2326' }} />
-              <span>I agree that Light Up Texas Installs may call, text or email me about my estimate. [CONSENT WORDING TO BE REVIEWED BEFORE LAUNCH]</span>
+              <span>By checking this box, I agree that Light Up Texas Installs LLC may contact me about my estimate by call, text, or email, including automated messages. Consent isn’t required to purchase. Message and data rates may apply. Reply STOP to opt out.</span>
             </label>
             {showErr(!consent) && <div className="err">Please check the box so we can contact you.</div>}
             {saveErr && <div className="err" role="alert">{saveErr}</div>}
@@ -399,36 +399,17 @@ function Choice({ legend, opts, val, set, cls, left }: { legend: string; opts: s
 
 /* ── The map panel: real satellite photo when available, an example drawing otherwise ── */
 
-function project(lat: number, lng: number, cLat: number, cLng: number, zoom: number) {
-  const W = 256 * 2 ** zoom;
-  const x = (l: number) => ((l + 180) / 360) * W;
-  const y = (la: number) => { const s = Math.sin((la * Math.PI) / 180); return (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W; };
-  return { x: 320 + x(lng) - x(cLng), y: 200 + y(lat) - y(cLat) };
-}
-
 function HomeView({ lookup, demo, place, roof, satOk, onSatFail }: { lookup: Lookup; demo: boolean; place: Place | null; roof: Roof | null; satOk: boolean; onSatFail: () => void }) {
   const live = lookup === 'found';
   const useSat = live && !demo && place && satOk;
   const c = roof?.center || (place ? { lat: place.lat, lng: place.lng } : null);
   const Z = 20;
-  let box: { x: number; y: number; w: number; h: number } | null = null;
-  if (useSat && roof?.bbox && c) {
-    const a = project(roof.bbox.ne.lat, roof.bbox.sw.lng, c.lat, c.lng, Z);
-    const b = project(roof.bbox.sw.lat, roof.bbox.ne.lng, c.lat, c.lng, Z);
-    box = { x: a.x, y: a.y, w: b.x - a.x, h: b.y - a.y };
-  }
   return (
     <div style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', background: '#34423A', aspectRatio: '640 / 400' }}>
       {useSat && c ? (
         <>
           <img src={`/api/satellite?lat=${c.lat}&lng=${c.lng}&z=${Z}`} alt={`Satellite view of ${place!.address}`} onError={onSatFail}
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          {box && (
-            <svg viewBox="0 0 640 400" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden="true">
-              <rect x={box.x} y={box.y} width={box.w} height={box.h} rx="3" fill="none" stroke="#F2D9A0" strokeWidth="4"
-                style={{ filter: 'drop-shadow(0 0 3px rgba(242,217,160,.95)) drop-shadow(0 0 10px rgba(242,217,160,.6))' }} />
-            </svg>
-          )}
           <div style={{ position: 'absolute', bottom: 6, right: 8, fontSize: 10, color: '#fff', opacity: 0.85 }}>Imagery ©Google</div>
         </>
       ) : (
