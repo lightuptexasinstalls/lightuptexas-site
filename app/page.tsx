@@ -13,9 +13,9 @@ export default function Home() {
           <img src="/images/hero.jpg" fetchPriority="high" alt="A white stone and stucco Texas home at twilight, its rooflines glowing warm white from lighting hidden under the eaves" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '70% center', display: 'block'}} />
           <div aria-hidden="true" style={{position: 'absolute', top: '0', right: '0', bottom: '0', left: '0', background: 'linear-gradient(90deg, rgba(14, 19, 21, 0.85) 0%, rgba(14, 19, 21, 0.6) 40%, rgba(14, 19, 21, 0.12) 65%, rgba(14, 19, 21, 0) 100%)'}}></div>
           <div style={{position: 'relative', maxWidth: '1120px', margin: '0 auto', padding: '112px 24px 128px', display: 'flex'}}>
-            <div style={{flex: '0 1 540px', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '22px'}}>
+            <div style={{flex: '0 1 760px', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '22px'}}>
               
-              <h1 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2.6rem, 5vw, 4.25rem)', lineHeight: 1.04}}>Your home, beautifully lit. <br /><span style={{fontStyle: 'italic', color: 'rgb(230, 210, 166)'}}>Every night of the year.</span></h1>
+              <h1 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2.6rem, 5vw, 4.25rem)', lineHeight: 1.04}}><span style={{display: 'block'}}>Your home, beautifully lit.</span><span style={{display: 'block', fontStyle: 'italic', color: 'rgb(230, 210, 166)'}}>Every night of the year.</span></h1>
               <p style={{margin: '0', maxWidth: '480px', fontSize: '18px', fontWeight: '300', lineHeight: 1.6, color: '#DDE1E2'}}>Lighting that hides under your eaves by day and glows any color of your choice by night, all controlled from your phone.</p>
               <form action="/estimate" method="get" style={{background: '#F6F3EC', color: '#1C2326', borderRadius: '18px', padding: '18px', display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '460px', boxShadow: '0 18px 50px rgba(0, 0, 0, 0.35)'}}>
                 <label htmlFor="hero-zip" style={{fontSize: '15px', fontWeight: '500'}}>Receive an estimate in &lt;2 minutes</label>
