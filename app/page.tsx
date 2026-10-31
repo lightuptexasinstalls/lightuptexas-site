@@ -12,7 +12,7 @@ export default function Home() {
         <section style={{position: 'relative', background: '#1B2630', color: '#F3EEE4', overflow: 'hidden'}}>
           <img src="/images/hero.jpg" fetchPriority="high" alt="A white stone and stucco Texas home at twilight, its rooflines glowing warm white from lighting hidden under the eaves" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '70% center', display: 'block'}} />
           <div aria-hidden="true" style={{position: 'absolute', top: '0', right: '0', bottom: '0', left: '0', background: 'linear-gradient(90deg, rgba(14, 19, 21, 0.85) 0%, rgba(14, 19, 21, 0.6) 40%, rgba(14, 19, 21, 0.12) 65%, rgba(14, 19, 21, 0) 100%)'}}></div>
-          <div style={{position: 'relative', maxWidth: '1120px', margin: '0 auto', padding: '112px 24px 128px', display: 'flex'}}>
+          <div style={{position: 'relative', padding: '112px 24px 128px max(24px, 5vw)', minHeight: 'clamp(601px, 51.9vw + 30px, 777px)', boxSizing: 'border-box', display: 'flex', alignItems: 'center'}}>
             <div style={{flex: '0 1 760px', minWidth: '0', display: 'flex', flexDirection: 'column', gap: '22px'}}>
               
               <h1 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2.6rem, 5vw, 4.25rem)', lineHeight: 1.04}}><span style={{display: 'block'}}>Your home, beautifully lit.</span><span style={{display: 'block', fontStyle: 'italic', color: 'rgb(230, 210, 166)'}}>Every night of the year.</span></h1>
