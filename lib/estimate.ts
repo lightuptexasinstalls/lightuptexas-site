@@ -27,14 +27,14 @@ export function coverageFeet(totalFeet: number, coverageIndex: number): number {
 
 export type Range = { low: number; high: number };
 
-export function priceRange(feet: number, storiesIndex: number, measured: boolean): Range | null {
+export function priceRange(feet: number, storiesIndex: number): Range | null {
   if (!feet || feet <= 0 || storiesIndex < 0 || storiesIndex > 2) return null;
   const P = PRICING;
   const base = feet * P.ratePerFoot * P.storyMultiplier[storiesIndex];
-  const s = measured ? P.spread.measured : P.spread.estimated;
   const r = (n: number) => Math.round(n / P.roundTo) * P.roundTo;
-  const low = Math.max(P.minimum, r(base * s.low));
-  const high = Math.max(low + P.minRangeWidth, r(base * s.high));
+  // low and high sit evenly around the price, with high = low + rangePct
+  const low = Math.max(P.minimum, r(base / (1 + P.rangePct / 2)));
+  const high = r(low * (1 + P.rangePct));
   return { low, high };
 }
 
