@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
 
   // Price is always recalculated here so it can't be edited in the browser.
   const si = STORIES.indexOf(lead.stories);
-  const range = lead.roofline_ft && si >= 0 ? priceRange(lead.roofline_ft, si, lead.home_found === true) : null;
+  const range = lead.roofline_ft && si >= 0 ? priceRange(lead.roofline_ft, si) : null;
   lead.price_low = range?.low ?? null;
   lead.price_high = range?.high ?? null;
 
