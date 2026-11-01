@@ -1,6 +1,7 @@
 import SiteHeader from '@/components/SiteHeader';
 import ColorScenes from '@/components/ColorScenes';
 import HeavyScroll from '@/components/HeavyScroll';
+import Faq from '@/components/Faq';
 import { SITE } from '@/config/site';
 
 export default function Home() {
@@ -299,49 +300,7 @@ export default function Home() {
           </div>
         </section>
       
-        <section style={{maxWidth: '800px', margin: '0 auto', padding: '88px 24px', display: 'flex', flexDirection: 'column', gap: '28px'}}>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-            <h2 style={{margin: '0', fontFamily: "'Cormorant Garamond', serif", fontWeight: '300', fontSize: 'clamp(2rem, 3.6vw, 2.9rem)', lineHeight: 1.1}}>Good questions, straight answers</h2>
-          </div>
-          <div style={{display: 'flex', flexDirection: 'column', borderTop: '1px solid #D9D2C3'}}>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>Can you see the lights during the day?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>Barely. The track is cut to fit your home and comes in hundreds of colors to match your soffit and fascia. In daylight, most people only notice small, evenly spaced lenses.</p>
-            </details>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>Will it work on my house?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>Almost certainly. Every track is custom-made for the home, including houses with gutters in front of the soffit, no soffit at all, stucco, or unusual rooflines. We confirm the details at your free in-person measurement.</p>
-            </details>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>Will installation damage my roof?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>[ANSWER TO CONFIRM WITH CLIENT: how the track is mounted]</p>
-            </details>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>How long does installation take?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>Your track is made to measure first. Once it's ready, most homes are installed in a single day, and we walk you through the app before we leave.</p>
-            </details>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>How long will the lights last?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>The LEDs are rated for more than 100,000 hours, built for years of nightly use outdoors.</p>
-            </details>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>Is it expensive to run?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>No. Lighting an entire home draws less power than a single 200-watt bulb.</p>
-            </details>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>What's the warranty?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>[WARRANTY DETAILS TO CONFIRM WITH CLIENT]</p>
-            </details>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>What about my HOA?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>Rules vary by neighborhood. Mention it on your call and we'll help you check what your HOA allows before anything is installed.</p>
-            </details>
-            <details style={{borderBottom: '1px solid #D9D2C3', padding: '18px 0'}}>
-              <summary style={{cursor: 'pointer', fontSize: '17px', fontWeight: '500', minHeight: '28px'}}>When should I book to be lit for the holidays?</summary>
-              <p style={{margin: '12px 0 0', fontSize: '15px', fontWeight: '300', lineHeight: 1.65, color: '#3A4549'}}>As early as you can. Install dates fill up as the holidays get closer, and each track is custom-made before installation.</p>
-            </details>
-          </div>
-        </section>
+        <Faq />
       
         <section style={{background: '#141A1D', color: '#F3EEE4'}}>
           <div style={{maxWidth: '1120px', margin: '0 auto', padding: '88px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '22px'}}>
