@@ -36,7 +36,20 @@ export type Lead = {
   alerted_complete: boolean;
 };
 
-const url = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+// Find the database connection whatever name Vercel's Neon integration gave it
+// (DATABASE_URL, POSTGRES_URL, or a custom prefix like STORAGE_DATABASE_URL).
+function findDbUrl(): { url: string; name: string } | null {
+  const preferred = ['DATABASE_URL', 'POSTGRES_URL', 'POSTGRES_PRISMA_URL', 'STORAGE_URL', 'NEON_DATABASE_URL'];
+  for (const n of preferred) if (process.env[n]?.startsWith('postgres')) return { url: process.env[n]!, name: n };
+  for (const [n, v] of Object.entries(process.env)) {
+    if (v && /^postgres(ql)?:\/\//.test(v) && /(DATABASE_URL|POSTGRES_URL)$/.test(n) && !/UNPOOLED|NON_POOLING/.test(n)) return { url: v, name: n };
+  }
+  for (const [n, v] of Object.entries(process.env)) if (v && /^postgres(ql)?:\/\//.test(v)) return { url: v, name: n };
+  return null;
+}
+const found = findDbUrl();
+const url = found?.url;
+export const dbVarName = found?.name ?? null;
 const sql = url ? postgres(url, { ssl: url.includes('localhost') ? false : 'require', max: 3 }) : null;
 let ready: Promise<unknown> | null = null;
 
@@ -63,6 +76,18 @@ async function writeFile(all: Record<string, Lead>) {
 }
 
 export const storageMode = sql ? 'postgres' : 'local file';
+
+/** Quick check used by the dashboard's status bar. */
+export async function dbStatus(): Promise<{ ok: boolean; mode: string; detail: string; count?: number }> {
+  if (!sql) return { ok: false, mode: 'temporary storage', detail: process.env.VERCEL ? 'No database connection found on Vercel. Leads are only kept temporarily.' : 'Local file (fine for testing on a laptop).' };
+  try {
+    await ensureTable();
+    const r = await sql`select count(*)::int as n from leads`;
+    return { ok: true, mode: 'postgres', detail: `Connected via ${dbVarName}`, count: r[0].n };
+  } catch (e) {
+    return { ok: false, mode: 'postgres', detail: 'Database found but could not connect: ' + String((e as Error).message).slice(0, 160) };
+  }
+}
 
 export async function getLead(id: string): Promise<Lead | null> {
   if (sql) {

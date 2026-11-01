@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getLead, saveLead, blankLead, autoTags, type Lead } from '@/lib/leads';
-import { sendLeadAlert } from '@/lib/alerts';
+import { sendLeadAlert, sendCustomerEstimate } from '@/lib/alerts';
 import { inServiceArea, priceRange } from '@/lib/estimate';
 import { STORIES, COVERAGE, HOME_SIZES, OWNER, TIMING, HOA, CALLBACK_SLOTS } from '@/config/site';
 
@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
   lead.tags = autoTags(lead);
   await saveLead(lead);
   if (alert) await sendLeadAlert(lead, alert);
+  if (alert === 'complete') await sendCustomerEstimate(lead);
 
   return NextResponse.json({ ok: true, price_low: lead.price_low, price_high: lead.price_high, in_area: lead.in_area });
 }

@@ -48,3 +48,31 @@ legend { font-size: 15px; font-weight: 500; padding: 0; margin-bottom: 10px; }
   .hero-img { object-position: 78% center !important; }
   .hero-shade + div h1, .hero-shade + div p { text-shadow: 0 1px 14px rgba(0,0,0,.55); }
 }
+
+/* Header social icons */
+.social-btn { width: 44px; height: 44px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #3A4549; transition: background .2s, color .2s; }
+.social-btn:hover { background: #1C2326; color: #F6F3EC; }
+
+.hdr-phone-icon { display: none; }
+@media (max-width: 600px) {
+  .hdr-inner { padding: 20px 16px !important; gap: 8px !important; }
+  .hdr-logo { gap: 9px !important; }
+  .hdr-logo svg { width: 36px; height: auto; }
+  .hdr-logo > span { gap: 5px !important; }
+  .hdr-back { display: none; }
+  .hdr-logo > span > span { white-space: nowrap; }
+  .hdr-logo > span > span:first-child { font-size: 15px !important; }
+  .hdr-logo > span > span:nth-child(2) { font-size: 8px !important; letter-spacing: 0.55em !important; }
+  .hdr-actions { gap: 0 !important; }
+  .social-btn, .hdr-phone { width: 36px !important; height: 36px !important; }
+  .social-btn svg, .hdr-phone svg { width: 19px; height: 19px; }
+  .hdr-phone { border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+  .hdr-phone-text { display: none; }
+  .hdr-phone-icon { display: block; }
+}
+@media (max-width: 360px) {
+  .hdr-logo svg { width: 28px; }
+  .hdr-logo > span > span:first-child { font-size: 13px !important; letter-spacing: 0.16em !important; }
+  .hdr-logo > span > span:nth-child(2) { font-size: 7px !important; }
+  .social-btn, .hdr-phone { width: 32px !important; height: 32px !important; }
+}

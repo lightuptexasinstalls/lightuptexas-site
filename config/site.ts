@@ -7,8 +7,11 @@ export const SITE = {
   phoneDisplay: '(325) 332-7997',
   phoneTel: '3253327997',
   serviceAreaLabel: 'Abilene, Texas',
+  facebook: 'https://www.facebook.com/', // TODO: the client's Facebook page link
+  instagram: 'https://www.instagram.com/', // TODO: the client's Instagram link
   specialistName: 'Aaron', // shown on the results screen: "[name] will call you…"
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  // The live address. Vercel fills VERCEL_PROJECT_PRODUCTION_URL in automatically.
+  url: process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://localhost:3000'),
 };
 
 // ZIP codes you install in. Leave EMPTY to accept every Texas ZIP while testing.

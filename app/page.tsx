@@ -197,6 +197,10 @@ export default function Home() {
               </div>
             </div>
       
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', textAlign: 'center'}}>
+              <a href="/estimate" className="btn-primary" style={{padding: '0 30px'}}>Get My Estimate</a>
+              <div style={{fontSize: '13px', color: '#4A5559'}}>Free ballpark price in under 2 minutes · No obligation</div>
+            </div>
           </div>
         </section>
       

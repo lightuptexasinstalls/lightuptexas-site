@@ -1,5 +1,5 @@
 import { isAdmin } from '@/lib/auth';
-import { listLeads, storageMode } from '@/lib/leads';
+import { listLeads, dbStatus, type Lead } from '@/lib/leads';
 import { loginAction, updateLead } from './actions';
 import { LEAD_STATUSES } from '@/config/site';
 import { money } from '@/lib/estimate';
@@ -27,7 +27,10 @@ export default async function Admin({ searchParams }: { searchParams: Promise<Re
     );
   }
 
-  const all = await listLeads();
+  const status = await dbStatus();
+  let all: Lead[] = [];
+  let loadError = '';
+  try { all = await listLeads(); } catch (e) { loadError = String((e as Error).message).slice(0, 200); }
   const view = sp.view || 'all';
   const leads = all.filter((l) =>
     view === 'all' ? true : view === 'started' ? l.stage !== 'complete' : view === 'completed' ? l.stage === 'complete' : l.status === view);
@@ -44,10 +47,18 @@ export default async function Admin({ searchParams }: { searchParams: Promise<Re
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 16 }}>
         <Logo />
         <div style={{ display: 'flex', gap: 14, alignItems: 'center', fontSize: 13 }}>
-          <span style={{ color: '#5E6A6E' }}>Storage: {storageMode}</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: status.ok ? '#2F6B3A' : '#9B2C2C' }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: status.ok ? '#2F6B3A' : '#9B2C2C' }} />
+            {status.ok ? `Database connected · ${status.count} leads` : 'Database problem'}
+          </span>
           <a href="/admin/export">Download CSV</a>
         </div>
       </div>
+      {(!status.ok || loadError) && (
+        <div role="alert" style={{ background: '#FBEAEA', border: '1px solid #E5B8B8', color: '#7A1F1F', borderRadius: 10, padding: '12px 14px', fontSize: 14, marginBottom: 14 }}>
+          <b style={{ fontWeight: 500 }}>Leads aren&apos;t being stored permanently.</b> {status.detail}{loadError ? ` (${loadError})` : ''} In Vercel: Storage → make sure the Neon database is connected to this project, then Deployments → Redeploy.
+        </div>
+      )}
       <nav style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
         {tabs.map(([k, l]) => (
           <a key={k} href={`/admin?view=${encodeURIComponent(k)}`} className="pill" aria-pressed={view === k} style={{ textDecoration: 'none', minHeight: 34, fontSize: 13 }}>{l}</a>
