@@ -1,6 +1,7 @@
 import { isAdmin } from '@/lib/auth';
 import { listLeads, dbStatus, type Lead } from '@/lib/leads';
-import { loginAction, updateLead } from './actions';
+import { loginAction, updateLead, deleteLeadAction } from './actions';
+import DeleteLeadButton from '@/components/DeleteLeadButton';
 import { LEAD_STATUSES } from '@/config/site';
 import { money } from '@/lib/estimate';
 import { Logo } from '@/components/SiteHeader';
@@ -84,6 +85,10 @@ export default async function Admin({ searchParams }: { searchParams: Promise<Re
                     <input name="notes" placeholder="notes" defaultValue={l.notes} />
                     <div style={{ fontSize: 11, color: '#7A8487' }}>{l.tags.filter((t) => t.startsWith('auto:')).map((t) => t.slice(5)).join(' · ')}</div>
                     <button className="pill" style={{ minHeight: 30, alignSelf: 'flex-start' }}>Save</button>
+                  </form>
+                  <form action={deleteLeadAction} style={{ marginTop: 8 }}>
+                    <input type="hidden" name="id" value={l.id} />
+                    <DeleteLeadButton name={l.first_name} />
                   </form>
                 </td>
               </tr>

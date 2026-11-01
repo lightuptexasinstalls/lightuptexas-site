@@ -2,7 +2,7 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { isAdmin, login } from '@/lib/auth';
-import { getLead, saveLead, autoTags } from '@/lib/leads';
+import { getLead, saveLead, autoTags, deleteLead } from '@/lib/leads';
 import { LEAD_STATUSES } from '@/config/site';
 
 export async function loginAction(form: FormData) {
@@ -22,5 +22,12 @@ export async function updateLead(form: FormData) {
   lead.tags = autoTags(lead);
   lead.notes = String(form.get('notes') || '').slice(0, 2000);
   await saveLead(lead);
+  revalidatePath('/admin');
+}
+
+export async function deleteLeadAction(form: FormData) {
+  if (!(await isAdmin())) redirect('/admin');
+  const id = String(form.get('id') || '');
+  if (id) await deleteLead(id);
   revalidatePath('/admin');
 }

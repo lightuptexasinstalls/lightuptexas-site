@@ -113,6 +113,17 @@ export async function saveLead(lead: Lead): Promise<void> {
   await writeFile(all);
 }
 
+export async function deleteLead(id: string): Promise<void> {
+  if (sql) {
+    await ensureTable();
+    await sql`delete from leads where id = ${id}`;
+    return;
+  }
+  const all = await readFile();
+  delete all[id];
+  await writeFile(all);
+}
+
 export async function listLeads(): Promise<Lead[]> {
   if (sql) {
     await ensureTable();
