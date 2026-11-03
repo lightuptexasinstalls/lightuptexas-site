@@ -10,6 +10,7 @@ import '@fontsource/jost/400.css';
 import '@fontsource/jost/500.css';
 import './globals.css';
 import UtmCapture from '@/components/UtmCapture';
+import { Analytics } from '@vercel/analytics/next';
 import { SITE } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <UtmCapture />
+        <Analytics />
         {PIXEL && (
           <Script id="meta-pixel" strategy="afterInteractive">{`
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
