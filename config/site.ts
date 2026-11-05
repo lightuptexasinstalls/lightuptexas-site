@@ -9,7 +9,7 @@ export const SITE = {
   serviceAreaLabel: 'Abilene, Texas',
   facebook: 'https://www.facebook.com/lightuptexasinstalls',
   instagram: 'https://www.instagram.com/lightuptexasinstalls/',
-  specialistName: 'Aaron', // shown on the results screen: "[name] will call you…"
+  specialistName: 'Aaron or Billy', // shown on the results screen: "[name] will call you…"
   // The live address. Vercel fills VERCEL_PROJECT_PRODUCTION_URL in automatically.
   url: process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://localhost:3000'),
 };
