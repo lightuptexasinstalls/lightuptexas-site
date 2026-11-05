@@ -126,7 +126,7 @@ export async function sendCustomerEstimate(lead: Lead): Promise<boolean> {
       <div style="font-family:${SERIF};font-size:36px;line-height:1.15;color:${C.cream};">${price}</div>
       <div style="font-size:13px;color:#C9CFD0;margin-top:4px;">${esc([lead.roofline_ft ? `About ${lead.roofline_ft} ft of roofline` : '', lead.coverage.replace('Traced on map · ', ''), lead.stories].filter(Boolean).join(' · '))}</div>
     </div>
-    <p style="margin:20px 0 0;">${esc(SITE.specialistName)}, our lighting specialist, will give you a call at <b style="font-weight:500;">${esc(lead.phone)}</b> to answer your questions and set up a free in-person measurement.</p>
+    <p style="margin:20px 0 0;">${esc(SITE.specialistName)}, our lighting specialists, will text you at <b style="font-weight:500;">${esc(lead.phone)}</b> to answer your questions and set up a free in-person measurement.</p>
     <p style="margin:14px 0 0;color:${C.slate};font-size:14px;"><b style="font-weight:500;color:${C.ink};">This is a ballpark, not a quote.</b> It&rsquo;s based on your home&rsquo;s size and typical installs. Your official price comes after we measure in person, before any work begins. No obligation.</p>
     ${button(`tel:${SITE.phoneTel}`, `Call us at ${esc(SITE.phoneDisplay)}`)}
     <p style="margin:18px 0 0;font-size:13px;color:${C.slate};">Questions? Just reply to this email.</p>`;
