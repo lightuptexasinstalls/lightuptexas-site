@@ -48,4 +48,6 @@ export const TIMING = ['Before the holidays', 'In the next 1–3 months', 'Just 
 export const HOA = ['Yes', 'No', 'Not sure'];
 export const CALLBACK_SLOTS = ['Later today', 'Tomorrow morning', 'Tomorrow evening'];
 
-export const LEAD_STATUSES = ['new', 'called', 'no answer', 'answered', 'visit booked', 'bought', 'lost'];
+export const LEAD_STATUSES = ['new', 'texted', "didn't answer", 'talking', 'visit booked', 'bought', 'not interested'];
+/** Older status names, shown under their new names so existing leads keep their place. */
+export const LEGACY_STATUS: Record<string, string> = { called: 'texted', 'no answer': "didn't answer", answered: 'talking', lost: 'not interested' };

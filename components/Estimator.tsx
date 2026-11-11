@@ -29,6 +29,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
   const [lookup, setLookup] = useState<Lookup>('idle');
   const [roof, setRoof] = useState<Roof | null>(null);
   const [satOk, setSatOk] = useState(true);
+  const [streetOk, setStreetOk] = useState(true);
   const [cover, setCover] = useState<number | null>(null);
   const [size, setSize] = useState<number | null>(null);
   const [stories, setStories] = useState<number | null>(null);
@@ -149,7 +150,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
   }
 
   function resetAddress() {
-    setLookup('idle'); setAddress(''); setPlace(null); setRoof(null); setSize(null); setCover(null); setSatOk(true);
+    setLookup('idle'); setAddress(''); setPlace(null); setRoof(null); setSize(null); setCover(null); setSatOk(true); setStreetOk(true);
   }
 
   const phoneShown = useMemo(() => {
@@ -272,7 +273,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
             )}
 
             {lookup !== 'notfound' && (
-              <HomeView lookup={lookup} demo={demo} place={place} roof={roof} satOk={satOk} onSatFail={() => setSatOk(false)} />
+              <HomeView lookup={lookup} demo={demo} place={place} roof={roof} satOk={satOk} onSatFail={() => setSatOk(false)} streetOk={streetOk} onStreetFail={() => setStreetOk(false)} />
             )}
 
             {live && (
@@ -397,54 +398,28 @@ function Choice({ legend, opts, val, set, cls, left }: { legend: string; opts: s
   );
 }
 
-/* ── The map panel: real satellite photo when available, an example drawing otherwise ── */
+/* ── The home photo: street level when available, then satellite, otherwise nothing ── */
 
-function HomeView({ lookup, demo, place, roof, satOk, onSatFail }: { lookup: Lookup; demo: boolean; place: Place | null; roof: Roof | null; satOk: boolean; onSatFail: () => void }) {
+function HomeView({ lookup, demo, place, roof, satOk, onSatFail, streetOk, onStreetFail }: { lookup: Lookup; demo: boolean; place: Place | null; roof: Roof | null; satOk: boolean; onSatFail: () => void; streetOk: boolean; onStreetFail: () => void }) {
   const live = lookup === 'found';
-  const useSat = live && !demo && place && satOk;
-  const c = roof?.center || (place ? { lat: place.lat, lng: place.lng } : null);
-  const Z = 20;
+  const useStreet = live && !demo && place && streetOk;
+  const useSat = live && !demo && place && !streetOk && satOk;
+  if (lookup === 'searching') return <div role="status" style={{ fontSize: 15, color: '#3A4549' }}>Finding your home…</div>;
+  // No street or satellite photo for this home: show nothing rather than a stand-in drawing.
+  if (!place || !(useStreet || useSat)) return null;
+  const c = roof?.center || { lat: place.lat, lng: place.lng };
   return (
     <div style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', background: '#34423A', aspectRatio: '640 / 400' }}>
-      {useSat && c ? (
-        <>
-          <img src={`/api/satellite?lat=${c.lat}&lng=${c.lng}&z=${Z}`} alt={`Satellite view of ${place!.address}`} onError={onSatFail}
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          <div style={{ position: 'absolute', bottom: 6, right: 8, fontSize: 10, color: '#fff', opacity: 0.85 }}>Imagery ©Google</div>
-        </>
+      {useStreet ? (
+        <img src={`/api/streetview?lat=${place.lat}&lng=${place.lng}`} alt={`Street view of ${place.address}`} onError={onStreetFail}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       ) : (
-        <ExampleHome lit={live} />
+        <img src={`/api/satellite?lat=${c.lat}&lng=${c.lng}&z=20`} alt={`Satellite view of ${place.address}`} onError={onSatFail}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       )}
-      {lookup === 'idle' && (
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,19,21,.05) 0%, rgba(14,19,21,.25) 45%, rgba(14,19,21,.85) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 4, padding: '16px 18px', color: '#F3EEE4' }}>
-          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.25em', color: '#E6D2A6' }}>EXAMPLE</div>
-          <div style={{ fontSize: 15, lineHeight: 1.45 }}>Your home will appear here from above.</div>
-        </div>
-      )}
-      {lookup === 'searching' && (
-        <div role="status" style={{ position: 'absolute', inset: 0, background: 'rgba(14,19,21,.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#F3EEE4', fontSize: 16 }}>Finding your home…</div>
-      )}
-      {live && (
-        <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(14,19,21,.75)', color: '#F3EEE4', fontSize: 12, padding: '5px 10px', borderRadius: 999 }}>
-          {useSat ? 'Your home' : demo ? 'Demo home' : 'Your home'}
-        </div>
-      )}
+      <div style={{ position: 'absolute', bottom: 6, right: 8, fontSize: 10, color: '#fff', opacity: 0.85 }}>Imagery ©Google</div>
+      <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(14,19,21,.75)', color: '#F3EEE4', fontSize: 12, padding: '5px 10px', borderRadius: 999 }}>Your home</div>
     </div>
   );
 }
 
-function ExampleHome({ lit }: { lit: boolean }) {
-  const glow = lit ? { stroke: '#F2D9A0', strokeWidth: 5, filter: 'drop-shadow(0 0 3px rgba(242,217,160,.95)) drop-shadow(0 0 10px rgba(242,217,160,.6))' } : { stroke: 'rgba(255,255,255,.6)', strokeWidth: 2, strokeDasharray: '5 5' };
-  return (
-    <svg viewBox="0 0 400 250" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style={{ display: 'block', position: 'absolute', inset: 0 }}>
-      <rect width="400" height="260" fill="#34423A" />
-      <circle cx="36" cy="72" r="20" fill="#26352B" /><circle cx="40" cy="188" r="24" fill="#26352B" /><circle cx="364" cy="62" r="26" fill="#26352B" />
-      <rect y="222" width="400" height="8" fill="#7A7F80" /><rect y="230" width="400" height="30" fill="#2C3134" />
-      <rect x="232" y="205" width="86" height="25" fill="#6A6F70" /><rect x="140" y="155" width="10" height="67" fill="#7A7F80" />
-      <rect x="80" y="45" width="220" height="110" fill="#4B5359" />
-      <path d="M80 45 L135 100 M80 155 L135 100 M300 45 L245 100 M300 155 L245 100 M135 100 H245" stroke="#6C757B" strokeWidth="1.5" fill="none" />
-      <rect x="220" y="135" width="110" height="70" fill="#50585E" />
-      <path d="M80 45 H300 V135 H330 V205 H220 V155 H80 Z" fill="none" strokeLinejoin="round" {...(glow as object)} style={{ filter: (glow as { filter?: string }).filter }} />
-    </svg>
-  );
-}
