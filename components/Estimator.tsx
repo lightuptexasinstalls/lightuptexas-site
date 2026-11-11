@@ -96,6 +96,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
   }
 
   function pickNext(label: string) {
+    if (nextStep) return; // the first answer is final
     setNextStep(label);
     save({ next_step: label }).catch(() => {});
   }
@@ -357,15 +358,18 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
               <div style={{ fontSize: 14, lineHeight: 1.55, color: '#3A4549' }}>Your ZIP ({zip}) may be outside our usual service area. We&apos;ll confirm when we call.</div>
             )}
 
-            {!nextStep ? (
-              <fieldset style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <legend style={{ fontSize: 17, fontWeight: 500, marginBottom: 10 }}>What would you like to do next?</legend>
-                {NEXT_STEPS.map((n, i) => (
-                  <button key={n.label} type="button" onClick={() => pickNext(n.label)} className={i === 0 ? 'btn-primary' : 'opt'}
-                    style={{ minHeight: 52, fontSize: 16, justifyContent: 'center', width: '100%' }}>{n.label}</button>
-                ))}
-              </fieldset>
-            ) : (
+            <fieldset style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <legend style={{ fontSize: 17, fontWeight: 500, marginBottom: 10 }}>How would you like to continue?</legend>
+              {NEXT_STEPS.map((n) => (
+                <button key={n.label} type="button" onClick={() => pickNext(n.label)} className="opt" aria-pressed={nextStep === n.label} disabled={!!nextStep}
+                  style={{ minHeight: 52, fontSize: 16, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, cursor: nextStep ? 'default' : 'pointer', opacity: nextStep && nextStep !== n.label ? 0.45 : 1 }}>
+                  {nextStep === n.label && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>}
+                  {n.label}
+                </button>
+              ))}
+            </fieldset>
+
+            {nextStep && (
               <div role="status" style={{ background: '#141A1D', color: '#F3EEE4', borderRadius: 14, padding: 20, display: 'flex', alignItems: 'center', gap: 14 }}>
                 <div aria-hidden="true" style={{ width: 52, height: 52, borderRadius: '50%', background: '#2A3438', border: '1.5px solid #C9A66B', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E6D2A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21 C4 16.5 7.5 14 12 14 C16.5 14 20 16.5 20 21" /></svg>

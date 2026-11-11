@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
   if (!lead.alerted_contact) { alert = 'new'; lead.alerted_contact = true; }
   else if (lead.stage === 'complete' && !lead.alerted_complete) { alert = 'complete'; lead.alerted_complete = true; }
   if (callback && callback !== lead.callback) { lead.callback = callback; alert = 'callback'; }
-  if (nextStep && nextStep !== lead.next_step) { lead.next_step = nextStep; alert = 'next'; }
+  if (nextStep && !lead.next_step) { lead.next_step = nextStep; alert = 'next'; } // first answer is final
 
   lead.tags = autoTags(lead);
   await saveLead(lead);
