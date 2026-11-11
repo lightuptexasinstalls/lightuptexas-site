@@ -81,23 +81,26 @@ const alertRecipients = () => (process.env.LEAD_ALERT_EMAILS || '').split(',').m
 const priceText = (l: Lead) => (l.price_low && l.price_high ? `${money(l.price_low)} – ${money(l.price_high)}` : '');
 
 /** Internal alert to the team. */
-export async function sendLeadAlert(lead: Lead, kind: 'new' | 'complete' | 'callback'): Promise<boolean> {
+export async function sendLeadAlert(lead: Lead, kind: 'new' | 'complete' | 'callback' | 'next'): Promise<boolean> {
   const price = priceText(lead);
   const subject =
     kind === 'new' ? `New lead: ${lead.first_name} ${lead.phone} — call now` :
     kind === 'complete' ? `Estimate finished: ${lead.first_name} ${price}` :
+    kind === 'next' ? `${lead.next_step === 'Book my free measurement' ? 'HOT LEAD' : lead.next_step === 'I have a few questions' ? 'Questions' : 'Just looking'}: ${lead.first_name} ${lead.phone} — ${lead.next_step}` :
     `Callback requested: ${lead.first_name} — ${lead.callback}`;
   const title =
     kind === 'new' ? `${esc(lead.first_name)} just started an estimate` :
     kind === 'complete' ? `${esc(lead.first_name)} saw their price` :
+    kind === 'next' ? `${esc(lead.first_name)} chose: ${esc(lead.next_step || '')}` :
     `${esc(lead.first_name)} picked a call time`;
   const intro =
     kind === 'new' ? 'They&rsquo;re on the site right now. Calling in the next few minutes is your best shot.' :
     kind === 'complete' ? 'They finished the estimator and saw their ballpark price.' :
+    kind === 'next' ? (lead.next_step === 'Just looking for now' ? 'They saw their price and are just looking for now. Follow up gently later.' : 'They saw their price and want to hear from you. Text them now.') :
     'They can&rsquo;t talk now and chose a time for you to call.';
   const phoneDigits = lead.phone.replace(/\D/g, '');
   const body = `
-    ${eyebrow(kind === 'new' ? 'NEW LEAD' : kind === 'complete' ? 'ESTIMATE COMPLETED' : 'CALLBACK')}
+    ${eyebrow(kind === 'new' ? 'NEW LEAD' : kind === 'complete' ? 'ESTIMATE COMPLETED' : kind === 'next' ? 'NEXT STEP CHOSEN' : 'CALLBACK')}
     ${h1(title)}
     <p style="margin:0;color:${C.slate};">${intro}</p>
     ${price ? `<div style="margin:20px 0 0;padding:16px 18px;background:${C.cream};border-radius:10px;"><div style="font-size:11px;letter-spacing:3px;color:${C.slate};">BALLPARK</div><div style="font-family:${SERIF};font-size:28px;line-height:1.2;color:${C.ink};">${price}</div></div>` : ''}
@@ -107,6 +110,7 @@ export async function sendLeadAlert(lead: Lead, kind: 'new' | 'complete' | 'call
       ['ZIP', lead.zip + (lead.in_area ? '' : ' (outside service area)')], ['Address', lead.address],
       ['Roofline', lead.roofline_ft ? `~${lead.roofline_ft} ft` : ''], ['Coverage', lead.coverage], ['Home size', lead.home_size],
       ['Stories', lead.stories], ['Owns home', lead.owner], ['Timing', lead.timing], ['HOA', lead.hoa],
+      ['Wants', lead.next_step || ''],
       ['Call', lead.callback || (kind === 'complete' ? 'ASAP' : '')],
       ['Source', lead.utm.utm_source ? `${lead.utm.utm_source}${lead.utm.utm_campaign ? ' / ' + lead.utm.utm_campaign : ''}` : lead.utm.fbclid ? 'facebook' : ''],
     ])}
@@ -127,7 +131,7 @@ export async function sendCustomerEstimate(lead: Lead): Promise<boolean> {
       <div style="font-size:13px;color:#C9CFD0;margin-top:4px;">${esc([lead.roofline_ft ? `About ${lead.roofline_ft} ft of roofline` : '', lead.coverage.replace('Traced on map · ', ''), lead.stories].filter(Boolean).join(' · '))}</div>
     </div>
     <p style="margin:20px 0 0;">${esc(SITE.specialistName)}, our lighting specialists, will text you at <b style="font-weight:500;">${esc(lead.phone)}</b> to answer your questions and set up a free in-person measurement.</p>
-    <p style="margin:14px 0 0;color:${C.slate};font-size:14px;"><b style="font-weight:500;color:${C.ink};">This is a ballpark, not a quote.</b> It&rsquo;s based on your home&rsquo;s size and typical installs. Your official price comes after we measure in person, before any work begins. No obligation.</p>
+    <p style="margin:14px 0 0;color:${C.slate};font-size:14px;"><b style="font-weight:500;color:${C.ink};">This is a ballpark, not a quote.</b> It&rsquo;s based on your home&rsquo;s size and typical installs. Your official estimate comes after we measure in person, and the decision is yours. No obligation.</p>
     ${button(`tel:${SITE.phoneTel}`, `Call us at ${esc(SITE.phoneDisplay)}`)}
     <p style="margin:18px 0 0;font-size:13px;color:${C.slate};">Questions? Just reply to this email.</p>`;
   const replyTo = alertRecipients()[0];

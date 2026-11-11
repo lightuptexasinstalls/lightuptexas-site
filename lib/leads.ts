@@ -1,3 +1,4 @@
+import { NEXT_STEPS } from '@/config/site';
 import 'server-only';
 import postgres from 'postgres';
 import { promises as fs } from 'fs';
@@ -31,6 +32,7 @@ export type Lead = {
   price_low: number | null;
   price_high: number | null;
   callback: string;
+  next_step?: string;
   utm: Record<string, string>;
   alerted_contact: boolean;
   alerted_complete: boolean;
@@ -139,7 +141,7 @@ export function blankLead(id: string): Lead {
     id, created_at: now, updated_at: now, stage: 'contact', status: 'new', tags: [], notes: '',
     first_name: '', phone: '', email: '', consent: false, zip: '', in_area: false,
     address: '', lat: null, lng: null, home_found: null, roofline_ft: null, coverage: '', home_size: '',
-    stories: '', owner: '', timing: '', hoa: '', price_low: null, price_high: null, callback: '',
+    stories: '', owner: '', timing: '', hoa: '', price_low: null, price_high: null, callback: '', next_step: '',
     utm: {}, alerted_contact: false, alerted_complete: false,
   };
 }
@@ -154,5 +156,7 @@ export function autoTags(l: Lead): string[] {
   if (l.owner === 'No') t.add('auto:not-owner');
   if (l.hoa === 'Yes') t.add('auto:hoa');
   if (l.utm.utm_source) t.add('auto:src-' + l.utm.utm_source.toLowerCase());
+  const ns = NEXT_STEPS.find((n) => n.label === l.next_step);
+  if (ns) t.add('auto:' + ns.tag);
   return [...t];
 }

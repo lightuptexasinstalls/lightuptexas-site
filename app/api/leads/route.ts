@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getLead, saveLead, blankLead, autoTags, type Lead } from '@/lib/leads';
 import { sendLeadAlert, sendCustomerEstimate } from '@/lib/alerts';
 import { inServiceArea, priceRange } from '@/lib/estimate';
-import { STORIES, COVERAGE, HOME_SIZES, OWNER, TIMING, HOA, CALLBACK_SLOTS } from '@/config/site';
+import { STORIES, COVERAGE, HOME_SIZES, OWNER, TIMING, HOA, CALLBACK_SLOTS, NEXT_STEPS } from '@/config/site';
 
 const str = (v: unknown, max = 200) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 const pick = (v: unknown, list: readonly string[]) => (typeof v === 'string' && list.includes(v) ? v : '');
@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
   lead.timing = pick(b.timing, TIMING) || lead.timing;
   lead.hoa = pick(b.hoa, HOA) || lead.hoa;
   const callback = pick(b.callback, CALLBACK_SLOTS);
+  const nextStep = pick(b.next_step, NEXT_STEPS.map((n) => n.label));
   if (b.utm && typeof b.utm === 'object' && !Object.keys(lead.utm).length) {
     for (const [k, v] of Object.entries(b.utm as Record<string, unknown>).slice(0, 12)) lead.utm[str(k, 30)] = str(v, 200);
   }
@@ -58,10 +59,11 @@ export async function POST(req: NextRequest) {
   lead.price_low = range?.low ?? null;
   lead.price_high = range?.high ?? null;
 
-  let alert: 'new' | 'complete' | 'callback' | null = null;
+  let alert: 'new' | 'complete' | 'callback' | 'next' | null = null;
   if (!lead.alerted_contact) { alert = 'new'; lead.alerted_contact = true; }
   else if (lead.stage === 'complete' && !lead.alerted_complete) { alert = 'complete'; lead.alerted_complete = true; }
   if (callback && callback !== lead.callback) { lead.callback = callback; alert = 'callback'; }
+  if (nextStep && nextStep !== lead.next_step) { lead.next_step = nextStep; alert = 'next'; }
 
   lead.tags = autoTags(lead);
   await saveLead(lead);

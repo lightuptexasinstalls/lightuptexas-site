@@ -41,7 +41,6 @@ export default function SiteHeader({ variant = 'landing' }: { variant?: 'landing
               <svg className="hdr-phone-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5l1.5-2 4 1.5V19a1.5 1.5 0 0 1-1.5 1.5A15.5 15.5 0 0 1 3.5 5.5 1.5 1.5 0 0 1 5 4z" /></svg>
               <span className="hdr-phone-text">{SITE.phoneDisplay}</span>
             </a>
-            <Link href="/" className="hdr-back" style={{ fontSize: 15, color: '#3A4549' }}>Back to home</Link>
           </div>
         )}
       </div>

@@ -6,7 +6,7 @@ import { listLeads } from '@/lib/leads';
 // CSV for importing into an email marketing tool (Mailchimp, Klaviyo, etc).
 export async function GET(req: NextRequest) {
   if (!(await isAdmin())) return new NextResponse('Unauthorized', { status: 401 });
-  const cols = ['created_at', 'stage', 'status', 'first_name', 'phone', 'email', 'consent', 'zip', 'in_area', 'address', 'roofline_ft', 'coverage', 'home_size', 'stories', 'owner', 'timing', 'hoa', 'price_low', 'price_high', 'callback', 'tags', 'notes', 'utm_source', 'utm_campaign', 'utm_term', 'utm_content'] as const;
+  const cols = ['created_at', 'stage', 'status', 'first_name', 'phone', 'email', 'consent', 'zip', 'in_area', 'address', 'roofline_ft', 'coverage', 'home_size', 'stories', 'owner', 'timing', 'hoa', 'price_low', 'price_high', 'callback', 'next_step', 'tags', 'notes', 'utm_source', 'utm_campaign', 'utm_term', 'utm_content'] as const;
   const q = (v: unknown) => { const s = Array.isArray(v) ? v.join('; ') : String(v ?? ''); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
   const day = (iso: string) => new Date(iso).toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
   const ok = (v: string | null) => (v && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : '');

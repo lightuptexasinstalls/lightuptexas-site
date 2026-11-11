@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { readUtm, track } from './UtmCapture';
-import { COVERAGE, HOME_SIZES, STORIES, OWNER, TIMING, HOA, SITE } from '@/config/site';
+import { COVERAGE, HOME_SIZES, STORIES, OWNER, TIMING, HOA, SITE, NEXT_STEPS } from '@/config/site';
 import { inServiceArea, perimeterFromHomeSize, coverageFeet, priceRange, money } from '@/lib/estimate';
 
 type Lookup = 'idle' | 'searching' | 'found' | 'notfound';
@@ -37,6 +37,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
   const [timing, setTiming] = useState<number | null>(null);
   const [hoa, setHoa] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
+  const [nextStep, setNextStep] = useState('');
   const [saveErr, setSaveErr] = useState('');
   const [touched, setTouched] = useState(false);
 
@@ -92,6 +93,11 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
     const r = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload(extra)) });
     if (!r.ok) throw new Error('save failed');
     return r.json();
+  }
+
+  function pickNext(label: string) {
+    setNextStep(label);
+    save({ next_step: label }).catch(() => {});
   }
 
   function scrollTop() { try { topRef.current?.scrollIntoView({ block: 'start' }); window.scrollTo(0, 0); } catch {} }
@@ -242,7 +248,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <h1 className="est-h1">{live ? 'Choose what to light' : 'Let’s find your home'}</h1>
-              <p className="est-sub">{live ? 'Here’s your home from above. Pick how much of the roofline you’d like lit.' : 'Enter your address and we’ll pull up your home from above.'}</p>
+              <p className="est-sub">{live ? 'Here’s your home. Pick how much of the roofline you’d like lit.' : 'Enter your address and we’ll pull up your home.'}</p>
             </div>
 
             {!live && lookup !== 'notfound' && (
@@ -351,20 +357,32 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
               <div style={{ fontSize: 14, lineHeight: 1.55, color: '#3A4549' }}>Your ZIP ({zip}) may be outside our usual service area. We&apos;ll confirm when we call.</div>
             )}
 
-            <div style={{ background: '#141A1D', color: '#F3EEE4', borderRadius: 14, padding: 20, display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            {!nextStep ? (
+              <fieldset style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <legend style={{ fontSize: 17, fontWeight: 500, marginBottom: 10 }}>What would you like to do next?</legend>
+                {NEXT_STEPS.map((n, i) => (
+                  <button key={n.label} type="button" onClick={() => pickNext(n.label)} className={i === 0 ? 'btn-primary' : 'opt'}
+                    style={{ minHeight: 52, fontSize: 16, justifyContent: 'center', width: '100%' }}>{n.label}</button>
+                ))}
+              </fieldset>
+            ) : (
+              <div role="status" style={{ background: '#141A1D', color: '#F3EEE4', borderRadius: 14, padding: 20, display: 'flex', alignItems: 'center', gap: 14 }}>
                 <div aria-hidden="true" style={{ width: 52, height: 52, borderRadius: '50%', background: '#2A3438', border: '1.5px solid #C9A66B', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E6D2A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21 C4 16.5 7.5 14 12 14 C16.5 14 20 16.5 20 21" /></svg>
                 </div>
-                <div style={{ fontSize: 16, lineHeight: 1.5 }}><b style={{ fontWeight: 500 }}>{SITE.specialistName}</b> will text you at <b style={{ fontWeight: 500 }}>{phoneShown}</b> in about 10 minutes.</div>
+                <div style={{ fontSize: 16, lineHeight: 1.5 }}>
+                  {nextStep === NEXT_STEPS[2].label
+                    ? NEXT_STEPS[2].reply
+                    : <><b style={{ fontWeight: 500 }}>{SITE.specialistName}</b> will text you at <b style={{ fontWeight: 500 }}>{phoneShown}</b> shortly {NEXT_STEPS.find((n) => n.label === nextStep)?.reply}</>}
+                </div>
               </div>
-            </div>
+            )}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <h2 style={{ margin: 0, fontSize: 17, fontWeight: 500 }}>What happens next</h2>
               <ol style={{ margin: 0, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 8, fontSize: 15, fontWeight: 300, lineHeight: 1.55 }}>
-                <li>On the call, we&apos;ll answer your questions and set up a free in-person measurement.</li>
-                <li>You get your official price before any work begins. No obligation.</li>
+                <li>By text, we&apos;ll answer your questions and set up a free in-person measurement.</li>
+                <li>You get your official estimate and decide from there. No obligation.</li>
               </ol>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>

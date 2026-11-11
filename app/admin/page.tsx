@@ -104,7 +104,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<Re
                 <td><b>{l.first_name}</b><br /><a href={`tel:${l.phone.replace(/\D/g, '')}`}>{l.phone}</a><br /><a href={`mailto:${l.email}`}>{l.email}</a>{l.callback && <><br />Call: {l.callback}</>}</td>
                 <td>{l.address || '—'}<br />ZIP {l.zip}{!l.in_area && ' (outside area)'}<br />{l.roofline_ft ? `~${l.roofline_ft} ft · ${l.coverage}` : ''}{l.home_found === false ? ' · size estimate' : ''}{l.home_size ? <><br />{l.home_size}</> : ''}</td>
                 <td style={{ whiteSpace: 'nowrap' }}>{l.price_low ? `${money(l.price_low)}–${money(l.price_high!)}` : '—'}</td>
-                <td>{[l.stories, l.owner && `Owner: ${l.owner}`, l.timing, l.hoa && `HOA: ${l.hoa}`].filter(Boolean).join(' · ')}</td>
+                <td>{l.next_step && <><b style={{ fontWeight: 500, color: l.next_step.startsWith('Book') ? '#2F6B3A' : '#1C2326' }}>{l.next_step}</b><br /></>}{[l.stories, l.owner && `Owner: ${l.owner}`, l.timing, l.hoa && `HOA: ${l.hoa}`].filter(Boolean).join(' · ')}</td>
                 <td>
                   <b style={{ fontWeight: 500 }}>{l.utm.utm_source || (l.utm.fbclid ? 'facebook' : 'direct')}</b>
                   {l.utm.utm_content && <><br />Ad: <b style={{ fontWeight: 500 }}>{l.utm.utm_content}</b></>}

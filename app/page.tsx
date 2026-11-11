@@ -291,7 +291,7 @@ export default function Home() {
                   <div aria-hidden="true" style={{flex: '1', height: '1px', background: 'linear-gradient(90deg, #C9A66B 0%, rgba(201, 166, 107, 0.15) 100%)'}}></div>
                 </div>
                 <h3 style={{margin: '4px 0 0', fontSize: '19px', fontWeight: '500'}}>Free in-person measurement</h3>
-                <p style={{margin: '0', fontSize: '15px', fontWeight: '300', lineHeight: 1.6, color: '#3A4549'}}>We measure your roofline in person and give you your official price before any work begins.</p>
+                <p style={{margin: '0', fontSize: '15px', fontWeight: '300', lineHeight: 1.6, color: '#3A4549'}}>We measure your roofline in person and give you your official estimate. The decision is yours.</p>
               </li>
               <li style={{display: 'flex', flexDirection: 'column', gap: '14px'}}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
