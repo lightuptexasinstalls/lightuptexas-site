@@ -98,6 +98,9 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
   function pickNext(label: string) {
     if (nextStep) return; // the first answer is final
     setNextStep(label);
+    // Tell Meta which leads are ready to buy, so ads can optimize for them.
+    if (label === NEXT_STEPS[0].label) track('Schedule', range ? { value: range.low, currency: 'USD' } : undefined);
+    else if (label === NEXT_STEPS[1].label) track('Contact');
     save({ next_step: label }).catch(() => {});
   }
 
