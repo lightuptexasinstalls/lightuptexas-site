@@ -77,7 +77,9 @@ async function send(to: string[], subject: string, html: string, replyTo?: strin
   }
 }
 
-const alertRecipients = () => (process.env.LEAD_ALERT_EMAILS || '').split(',').map((s) => s.trim()).filter(Boolean);
+// Where lead alerts go. Add more addresses inside the brackets, e.g. ['a@x.com', 'b@x.com'].
+const LEAD_ALERT_TO = ['lights@lightuptexasinstalls.com'];
+const alertRecipients = () => LEAD_ALERT_TO;
 const priceText = (l: Lead) => (l.price_low && l.price_high ? `${money(l.price_low)} – ${money(l.price_high)}` : '');
 
 /** Internal alert to the team. */
