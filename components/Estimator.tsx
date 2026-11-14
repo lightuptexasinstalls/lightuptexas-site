@@ -378,9 +378,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E6D2A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21 C4 16.5 7.5 14 12 14 C16.5 14 20 16.5 20 21" /></svg>
                 </div>
                 <div style={{ fontSize: 16, lineHeight: 1.5 }}>
-                  {nextStep === NEXT_STEPS[2].label
-                    ? NEXT_STEPS[2].reply
-                    : <><b style={{ fontWeight: 500 }}>{SITE.specialistName}</b> will text you at <b style={{ fontWeight: 500 }}>{phoneShown}</b> shortly {NEXT_STEPS.find((n) => n.label === nextStep)?.reply}</>}
+                  <b style={{ fontWeight: 500 }}>{SITE.specialistName}</b> will text you at <b style={{ fontWeight: 500 }}>{phoneShown}</b> shortly {NEXT_STEPS.find((n) => n.label === nextStep)?.reply}
                 </div>
               </div>
             )}
