@@ -51,7 +51,7 @@ export const CALLBACK_SLOTS = ['Later today', 'Tomorrow morning', 'Tomorrow even
 export const NEXT_STEPS = [
   { label: 'Book my free measurement', tag: 'wants-measurement', reply: 'to set up your free in-person measurement.' },
   { label: 'I have a few questions', tag: 'has-questions', reply: 'to answer your questions.' },
-  { label: 'Just looking for now', tag: 'just-looking', reply: 'No pressure. We\u2019ll check in later, and your ballpark is in your email.' },
+  { label: 'Just looking for now', tag: 'just-looking', reply: 'in case any questions come up.' },
 ] as const;
 
 export const LEAD_STATUSES = ['new', 'texted', "didn't answer", 'talking', 'visit booked', 'bought', 'not interested'];
