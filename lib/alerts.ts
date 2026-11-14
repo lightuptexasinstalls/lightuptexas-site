@@ -98,7 +98,7 @@ export async function sendLeadAlert(lead: Lead, kind: 'new' | 'complete' | 'call
   const intro =
     kind === 'new' ? 'They&rsquo;re on the site right now. Calling in the next few minutes is your best shot.' :
     kind === 'complete' ? 'They finished the estimator and saw their ballpark price.' :
-    kind === 'next' ? (lead.next_step === 'Just looking for now' ? 'They saw their price and are just looking for now. Follow up gently later.' : 'They saw their price and want to hear from you. Text them now.') :
+    kind === 'next' ? (lead.next_step === 'Just looking for now' ? 'They saw their price and said they\u2019re just looking for now. Text them anyway, they were told to expect it.' : 'They saw their price and want to hear from you. Text them now.') :
     'They can&rsquo;t talk now and chose a time for you to call.';
   const phoneDigits = lead.phone.replace(/\D/g, '');
   const body = `
