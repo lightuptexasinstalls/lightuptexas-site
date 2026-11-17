@@ -62,7 +62,8 @@ async function send(to: string[], subject: string, html: string, replyTo?: strin
     console.log(`[email skipped: not configured] ${subject}`);
     return false;
   }
-  const from = process.env.ALERT_FROM_EMAIL || 'Light Up Texas <onboarding@resend.dev>';
+  // Sent from your verified domain in Resend. (onboarding@resend.dev can only email the Resend account owner.)
+  const from = 'Light Up Texas <leads@lightuptexasinstalls.com>';
   try {
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
