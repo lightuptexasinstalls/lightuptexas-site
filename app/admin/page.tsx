@@ -112,7 +112,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<Re
                   {l.utm.utm_campaign && <><br /><span style={{ color: '#7A8487' }}>Campaign: {l.utm.utm_campaign}</span></>}
                 </td>
                 <td>
-                  <form action={updateLead} style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 220 }}>
+                  <form key={`${l.id}-${l.updated_at}-${l.status}`} action={updateLead} style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 220 }}>
                     <input type="hidden" name="id" value={l.id} />
                     <select name="status" defaultValue={l.status}>{LEAD_STATUSES.map((s) => <option key={s}>{s}</option>)}</select>
                     <input name="tags" placeholder="tags, comma separated" defaultValue={l.tags.filter((t) => !t.startsWith('auto:')).join(', ')} />
