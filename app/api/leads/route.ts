@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getLead, saveLead, blankLead, autoTags, type Lead } from '@/lib/leads';
 import { sendLeadAlert, sendCustomerEstimate } from '@/lib/alerts';
-import { inServiceArea, priceRange } from '@/lib/estimate';
+import { inServiceArea, priceRange, money } from '@/lib/estimate';
 import { STORIES, COVERAGE, HOME_SIZES, OWNER, TIMING, HOA, CALLBACK_SLOTS, NEXT_STEPS } from '@/config/site';
 
 const str = (v: unknown, max = 200) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
@@ -58,6 +58,18 @@ export async function POST(req: NextRequest) {
   const range = lead.roofline_ft && si >= 0 ? priceRange(lead.roofline_ft, si) : null;
   lead.price_low = range?.low ?? null;
   lead.price_high = range?.high ?? null;
+
+  // Price screen: they tapped another coverage option to compare. Log it (no alert email).
+  const view = pick(b.compared_view, COVERAGE.map((c) => c.label));
+  const chosen = COVERAGE.find((c) => c.label === lead.coverage);
+  const other = COVERAGE.find((c) => c.label === view);
+  if (other && chosen && other.label !== chosen.label && lead.roofline_ft && si >= 0) {
+    const ft = Math.round((lead.roofline_ft / chosen.share) * other.share / 5) * 5;
+    const r = priceRange(ft, si);
+    const entry = `${other.label} · ~${ft} ft${r ? ` · ${money(r.low)}–${money(r.high)}` : ''}`;
+    lead.compared = (lead.compared ?? []).filter((x) => !x.startsWith(other.label + ' ·'));
+    lead.compared.push(entry);
+  }
 
   let alert: 'new' | 'complete' | 'callback' | 'next' | null = null;
   if (!lead.alerted_contact) { alert = 'new'; lead.alerted_contact = true; }
