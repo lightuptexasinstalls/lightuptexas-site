@@ -33,6 +33,8 @@ export type Lead = {
   price_high: number | null;
   callback: string;
   next_step?: string;
+  /** Other coverage options they looked at on the price screen, e.g. "Front of the home · ~105 ft · $3,250–$4,050". */
+  compared?: string[];
   utm: Record<string, string>;
   alerted_contact: boolean;
   alerted_complete: boolean;
@@ -141,7 +143,7 @@ export function blankLead(id: string): Lead {
     id, created_at: now, updated_at: now, stage: 'contact', status: 'new', tags: [], notes: '',
     first_name: '', phone: '', email: '', consent: false, zip: '', in_area: false,
     address: '', lat: null, lng: null, home_found: null, roofline_ft: null, coverage: '', home_size: '',
-    stories: '', owner: '', timing: '', hoa: '', price_low: null, price_high: null, callback: '', next_step: '',
+    stories: '', owner: '', timing: '', hoa: '', price_low: null, price_high: null, callback: '', next_step: '', compared: [],
     utm: {}, alerted_contact: false, alerted_complete: false,
   };
 }
@@ -156,6 +158,7 @@ export function autoTags(l: Lead): string[] {
   if (l.owner === 'No') t.add('auto:not-owner');
   if (l.hoa === 'Yes') t.add('auto:hoa');
   if (l.utm.utm_source) t.add('auto:src-' + l.utm.utm_source.toLowerCase());
+  if (l.compared?.length) t.add('auto:compared-options');
   const ns = NEXT_STEPS.find((n) => n.label === l.next_step);
   if (ns) t.add('auto:' + ns.tag);
   return [...t];
