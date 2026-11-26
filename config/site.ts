@@ -31,7 +31,7 @@ export const PRICING = {
 // Share of the total roofline each coverage choice usually covers.
 export const COVERAGE = [
   { key: 'front', label: 'Front of the home', share: 0.4 },
-  { key: 'front_sides', label: 'Front and sides', share: 0.7 },
+  { key: 'front_back', label: 'Front and back', share: 0.7 },
   { key: 'whole', label: 'Whole house', share: 1.0 },
 ] as const;
 
