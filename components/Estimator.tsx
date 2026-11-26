@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { readUtm, track } from './UtmCapture';
+import { readUtm, track, trackCustom } from './UtmCapture';
 import { COVERAGE, HOME_SIZES, STORIES, OWNER, TIMING, HOA, SITE, NEXT_STEPS } from '@/config/site';
 import { inServiceArea, perimeterFromHomeSize, coverageFeet, priceRange, money } from '@/lib/estimate';
 
@@ -45,7 +45,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
   const session = useRef(uid());
   const topRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { leadId.current = uid(); track('ViewContent', { content_name: 'estimator' }); }, []);
+  useEffect(() => { leadId.current = uid(); track('ViewContent', { content_name: 'estimator' }); if (z0.length === 5) trackCustom('ZipEntered'); }, []);
 
   // ── address search (debounced) ──
   useEffect(() => {
@@ -69,6 +69,11 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
   const totalFeet = live ? roof?.totalFeet ?? 0 : size !== null ? perimeterFromHomeSize(size, stories) : 0;
   const feet = cover !== null && totalFeet ? coverageFeet(totalFeet, cover) : 0;
   const range = stories !== null ? priceRange(feet, stories) : null;
+  // On the price screen, people can flip between coverage options to compare ballparks.
+  const [viewCover, setViewCover] = useState<number | null>(null);
+  const shownCover = viewCover ?? cover;
+  const shownFeet = shownCover !== null && totalFeet ? coverageFeet(totalFeet, shownCover) : 0;
+  const shownRange = stories !== null ? priceRange(shownFeet, stories) : null;
 
   const ok: Record<number, boolean> = {
     1: zipDone,
@@ -123,6 +128,7 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
       }
       setSaving(false);
     }
+    if (step === 1) trackCustom('ZipEntered');
     setTouched(false);
     setStep(step + 1);
     scrollTop();
@@ -170,8 +176,8 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
 
   const storyLabel = stories !== null ? STORIES[stories] : '';
   const summary = live
-    ? `About ${feet} ft of roofline · ${cover !== null ? COVERAGE[cover].label : ''} · ${storyLabel}`
-    : `About ${feet} ft, estimated from your home’s size · ${cover !== null ? COVERAGE[cover].label : ''} · ${storyLabel}`;
+    ? `About ${shownFeet} ft of roofline · ${shownCover !== null ? COVERAGE[shownCover].label : ''} · ${storyLabel}`
+    : `About ${shownFeet} ft, estimated from your home’s size · ${shownCover !== null ? COVERAGE[shownCover].label : ''} · ${storyLabel}`;
 
   const showErr = (cond: boolean) => touched && cond;
 
@@ -345,9 +351,22 @@ export default function Estimator({ startZip = '', demo = false }: { startZip?: 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.3em', color: '#5E6A6E' }}>YOUR BALLPARK PRICE</div>
               <div data-testid="price" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: 'clamp(2.6rem, 8vw, 3.6rem)', lineHeight: 1 }}>
-                {range ? `${money(range.low)} – ${money(range.high)}` : '—'}
+                {shownRange ? `${money(shownRange.low)} – ${money(shownRange.high)}` : '—'}
               </div>
               <div style={{ fontSize: 15, color: '#3A4549' }}>{summary}</div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ fontSize: 15, fontWeight: 500 }}>See the ballpark for other options</div>
+              <div role="group" aria-label="Compare coverage options" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 8 }}>
+                {COVERAGE.map((c, i) => (
+                  <button key={c.key} type="button" className="opt" aria-pressed={shownCover === i} onClick={() => { setViewCover(i); if (i !== cover) save({ compared_view: c.label }).catch(() => {}); }}
+                    style={{ minHeight: 48, fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                    {shownCover === i && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>}
+                    {c.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div style={{ background: '#F6F3EC', border: '1px solid #E2DBCC', borderRadius: 14, padding: '16px 18px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
